@@ -8,6 +8,7 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use SilverStripe\Forms\RequiredFields;
+use SilverStripe\Security\Security;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\Forms\CheckboxSetField;
 use SilverStripe\Security\PermissionProvider;
@@ -165,7 +166,7 @@ class TaxRate extends DataObject implements PermissionProvider
         }
 
         if (!$member) {
-            $member = Member::currentUser();
+            $member = Security::getCurrentUser();
         }
 
         if ($member && Permission::checkMember($member->ID, ["ADMIN", "TAXADMIN_MANAGE_RATE"])) {
@@ -190,7 +191,7 @@ class TaxRate extends DataObject implements PermissionProvider
         }
 
         if (!$member) {
-            $member = Member::currentUser();
+            $member = Security::getCurrentUser();
         }
 
         if ($member && Permission::checkMember($member->ID, ["ADMIN", "TAXADMIN_MANAGE_RATE"])) {
@@ -215,7 +216,7 @@ class TaxRate extends DataObject implements PermissionProvider
         }
 
         if (!$member) {
-            $member = Member::currentUser();
+            $member = Security::getCurrentUser();
         }
 
         if ($member && Permission::checkMember($member->ID, ["ADMIN", "TAXADMIN_MANAGE_RATE"])) {
