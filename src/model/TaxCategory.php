@@ -37,7 +37,7 @@ use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
  */
 class TaxCategory extends DataObject implements PermissionProvider
 {
-    
+
     private static $table_name = 'TaxCategory';
 
     /**
@@ -56,7 +56,7 @@ class TaxCategory extends DataObject implements PermissionProvider
         "Title" => "Varchar",
         "Default" => "Boolean"
     ];
-    
+
     private static $has_one = [
         "Site" => SiteConfig::class
     ];
@@ -80,7 +80,7 @@ class TaxCategory extends DataObject implements PermissionProvider
     private static $casting = [
         "RatesList" => "Varchar(255)"
     ];
-    
+
     public function getRatesList()
     {
         return implode(", ", $this->Rates()->column("Title"));
@@ -128,7 +128,7 @@ class TaxCategory extends DataObject implements PermissionProvider
 
         return $rates->first();
     }
-    
+
     public function getCMSValidator()
     {
         return RequiredFields::create([
@@ -169,7 +169,7 @@ class TaxCategory extends DataObject implements PermissionProvider
 
         return $fields;
     }
-    
+
     public function requireDefaultRecords()
     {
         // If no tax rates, setup some defaults
@@ -188,7 +188,7 @@ class TaxCategory extends DataObject implements PermissionProvider
                 'created'
             );
         }
-        
+
         parent::requireDefaultRecords();
     }
 
@@ -228,7 +228,7 @@ class TaxCategory extends DataObject implements PermissionProvider
     public function canView($member = null)
     {
         $extended = $this->extendedCan(__FUNCTION__, $member);
-        
+
         if ($extended !== null) {
             return $extended;
         }
@@ -245,13 +245,13 @@ class TaxCategory extends DataObject implements PermissionProvider
     public function canCreate($member = null, $context = [])
     {
         $extended = $this->extendedCan(__FUNCTION__, $member, $context);
-        
+
         if ($extended !== null) {
             return $extended;
         }
-        
+
         if (!$member) {
-            $member = Member::currentUser();
+            $member = Security::getCurrentUser();
         }
 
         if ($member && Permission::checkMember($member->ID, ["ADMIN", "TAXADMIN_MANAGE_CATEGORY"])) {
@@ -270,13 +270,13 @@ class TaxCategory extends DataObject implements PermissionProvider
     public function canEdit($member = null, $context = [])
     {
         $extended = $this->extendedCan(__FUNCTION__, $member);
-        
+
         if ($extended !== null) {
             return $extended;
         }
-        
+
         if (!$member) {
-            $member = Member::currentUser();
+            $member = Security::getCurrentUser();
         }
 
         if ($member && Permission::checkMember($member->ID, ["ADMIN", "TAXADMIN_MANAGE_CATEGORY"])) {
@@ -295,13 +295,13 @@ class TaxCategory extends DataObject implements PermissionProvider
     public function canDelete($member = null, $context = [])
     {
         $extended = $this->extendedCan(__FUNCTION__, $member);
-        
+
         if ($extended !== null) {
             return $extended;
         }
-        
+
         if (!$member) {
-            $member = Member::currentUser();
+            $member = Security::getCurrentUser();
         }
 
         if ($member && Permission::checkMember($member->ID, ["ADMIN", "TAXADMIN_MANAGE_CATEGORY"])) {
